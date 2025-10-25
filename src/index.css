@@ -1,0 +1,146 @@
+/* Tailwind v4: use single import */
+@import "tailwindcss";
+
+/* Design tokens & base variables */
+:root {
+  --accent: #10b981; /* lightAccent */
+  --dark-accent: #064e3b;
+  --muted: #9ca3af;
+
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  /* Light theme tokens (default) */
+  --bg: #ffffff; /* lightBg */
+  --text: #0f1724;
+  --card-bg: #ffffff;
+  --accent: #10b981;
+  --muted: #9ca3af;
+  color-scheme: light dark;
+}
+
+.dark,
+[data-theme="dark"] {
+  --bg: #0b0b0b; /* darkBg */
+  --text: #e6eef0;
+  --card-bg: #0f1724; /* cardBgDark */
+  --accent: #064e3b; /* darkAccent */
+}
+
+[data-theme="light"] {
+  --bg: #ffffff;
+  --text: #0f1724;
+  --card-bg: #ffffff;
+  --accent: #10b981;
+}
+
+/* input background tokens */
+:root {
+  --input-bg: rgba(243,244,246,0.9); /* light gray */
+}
+
+[data-theme="dark"], .dark {
+  --input-bg: rgba(255,255,255,0.04);
+}
+
+/* input border tokens */
+:root {
+  --input-border: rgba(15,23,36,0.12);
+}
+
+[data-theme="dark"], .dark {
+  --input-border: rgba(255,255,255,0.06);
+}
+
+/* Basic focus-visible utility */
+:focus-visible {
+  outline: 3px solid rgba(16,185,129,0.25);
+  outline-offset: 2px;
+}
+
+/* Keep default focus/border behavior for inputs and textareas.
+   Remove outlines/active border for buttons, but preserve a visible focus style for the search input (.search-field). */
+button, button:focus, button:active { outline: none; box-shadow: none; }
+button:focus, button:active { border-color: transparent; }
+
+/* Provide accessible focus-visible only for the search input */
+/* remove any outline for inputs and buttons as requested, add consistent borders for inputs */
+input, textarea, select, .search-field {
+  border: 1px solid var(--input-border);
+  background-color: var(--input-bg);
+  outline: none;
+  box-shadow: none;
+}
+
+/* small helpers */
+.glass {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(6px);
+}
+
+/* Base typography and layout tweaks */
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover { color: #535bf2; }
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--bg, #ffffff);
+}
+
+/* Button styles that keep text white in both themes */
+.btn-primary {
+  background-color: var(--accent);
+  color: #fff;
+  border: none;
+}
+.btn-primary:hover { filter: brightness(0.95); }
+
+/* Make sure inputs and placeholders are legible */
+input, textarea {
+  color: var(--text);
+}
+input::placeholder, textarea::placeholder {
+  color: rgba(0,0,0,0.45);
+}
+
+/* When theme is dark use lighter placeholders */
+.dark input::placeholder,
+[data-theme="dark"] input::placeholder,
+.dark textarea::placeholder,
+[data-theme="dark"] textarea::placeholder {
+  color: rgba(255,255,255,0.45);
+}
+
+/* Ensure light theme uses darker placeholders */
+[data-theme="light"] input::placeholder,
+[data-theme="light"] textarea::placeholder {
+  color: rgba(0,0,0,0.45);
+}
+
+h1 { font-size: 3.2em; line-height: 1.1; }
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover { border-color: #646cff; }
+button:focus, button:focus-visible { outline: 4px auto -webkit-focus-ring-color; }
+
+@media (prefers-color-scheme: light) {
+  :root { color: #213547; }
+  a:hover { color: #747bff; }
+  button { background-color: #f9f9f9; }
+}
