@@ -46,15 +46,27 @@ export default function Header() {
   }
 
   // Live search: debounce updates to the URL so Home page will fetch with ?q=
+  // NOTE: do not force navigation to `/` when the user is on another page
+  // (was causing /dashboard to be replaced to / because searchValue defaults to empty)
   useEffect(() => {
     if (debounceRef.current) clearTimeout(debounceRef.current)
     debounceRef.current = setTimeout(() => {
       const q = searchValue.trim()
-      if (q) navigate(`/?q=${encodeURIComponent(q)}`, { replace: true })
-      else navigate(`/`, { replace: true })
+      try {
+        if (q) {
+          navigate(`/?q=${encodeURIComponent(q)}`, { replace: true })
+        } else {
+          // only navigate to home if we're already on home — don't redirect from other pages
+          if (location.pathname === '/' || window.location.pathname === '/') {
+            navigate('/', { replace: true })
+          }
+        }
+      } catch (e) {
+        // ignore navigation errors
+      }
     }, 300)
     return () => clearTimeout(debounceRef.current)
-  }, [searchValue, navigate])
+  }, [searchValue, navigate, location.pathname])
 
   return (
     <header className="sticky top-0 z-40 glass backdrop-blur-sm py-3">
